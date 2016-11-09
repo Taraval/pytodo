@@ -6,71 +6,80 @@ from sys import argv
 TODO = "todo.txt"
 
 
-def helpmenu():
-    print "Please see documentation for more help."
-
-def replace_line(file_name, line_num, text):
-    lines = open(file_name, 'r').readlines()
-    lines[line_num] = text
-    print lines[line_num]
-    out = open(file_name, 'w')
-    out.writelines(lines)
-    out.close()
+def help_menu():
+    print("Please see documentation for more help.")
 
 
-def taskupdate():
-    LINENUMBER = argv[2]
-    LINEUPDATE = ' '.join(argv[3:])
-    print "Updating task" + LINENUMBER + ": " + LINEUPDATE
-    replace_line(TODO, int(LINENUMBER) - 1, LINEUPDATE + '\n')
+def task_update():
+    linenumber = argv[2]
+    lineupdate = ' '.join(argv[3:])
+    print("Updating task" + linenumber + ": " + lineupdate)
+    content = mod_task_read()
+    content[int(linenumber) - 1] = lineupdate + '\n'
+    mod_task_write(content)
 
 
-def taskdelete():
-    LINENUMBER = argv[2]
-    print "Deleting task item " + LINENUMBER
-    replace_line(TODO, int(LINENUMBER) - 1, '')
+def task_delete():
+    linenumber = argv[2]
+    print("Deleting task item " + linenumber)
+    content = mod_task_read()
+    content[int(linenumber) - 1] = ""
+    print("--")
+    print("TODO: " + str(len(content) - 1) + " task total")
+    mod_task_write(content)
 
 
-def taskcomplete():
-    print "complete, or check"
+def task_complete():
+    print("complete, or check")
 
 
-def tasklist():
-    with open(TODO, "r") as todoList:
-        content = todoList.readlines()
-        idx = 0
-        for idx, x in enumerate(content):
-            print str(idx + 1) + " " + x.strip()
-        print "--"
-        print "TODO: " + str(idx + 1) + " task total"
+def task_list():
+    content = mod_task_read()
+    for idx, x in enumerate(content):
+        print str(idx + 1) + " " + x.strip()
+    print("--")
+    print("TODO: " + str(len(content)) + " task total")
 
 
-def taskadd():
+def task_add():
+    content = mod_task_read()
+    todo = ' '.join(sys.argv[2:])
+    print("Adding: " + todo)
+    content.append(todo + "\n")
+    print("--")
+    print("TODO: " + str(len(content)) + " task total")
+    mod_task_write(content)
+
+
+def mod_task_read():
     if os.path.exists(TODO):
-        with open(TODO, "a+") as todoList:
-            todo = ' '.join(sys.argv[2:])
-            print "adding: " + todo
-            todoList.write('\n' + todo)
+        with open(TODO, "r") as todoList:
+            results = todoList.readlines()
+        return results
     else:
-        with open(TODO, "a+") as todoList:
-            todo = ' '.join(sys.argv[2:])
-            print "adding: " + todo
-            todoList.write(todo)
+        return []
+
+
+def mod_task_write(content):
+    with open(TODO, "w") as todoList:
+        todoList.writelines(content)
+
 
 """ Mapping the action key words """
-cmd_map = {"add": taskadd, "ad": taskadd, "a": taskadd,
-           "list": tasklist, "ls": tasklist, "l": tasklist,
-           "delete": taskdelete, "del": taskdelete, "d": taskdelete,
-           "update": taskupdate,
-           "complete": taskcomplete
+cmd_map = {"add": task_add, "ad": task_add, "a": task_add,
+           "list": task_list, "ls": task_list, "l": task_list,
+           "delete": task_delete, "del": task_delete, "d": task_delete,
+           "update": task_update,
+           "complete": task_complete
            }
 
 
 def main():
     """ Main Function """
     get_cmd = argv[1]
-    cmd_map.get(get_cmd, helpmenu)()
+    cmd_map.get(get_cmd, help_menu)()
 
 if __name__ == "__main__":
     #print ("Calling Main")
     main()
+
