@@ -11,21 +11,21 @@ def help_menu():
 
 
 def task_update():
-    linenumber = argv[2]
+    item = argv[2]
     lineupdate = ' '.join(argv[3:])
-    print("Updating task" + linenumber + ": " + lineupdate)
+    print("Updating task" + item + ": " + lineupdate)
     content = mod_task_read()
-    content[int(linenumber) - 1] = lineupdate + '\n'
+    content[int(item) - 1] = lineupdate + '\n'
     mod_task_write(content)
 
 
 def task_delete():
-    linenumber = argv[2]
-    print("Deleting task item " + linenumber)
+    item = argv[2]
+    print("Deleting task item " + item)
     content = mod_task_read()
-    content[int(linenumber) - 1] = ""
+    del content[int(item) - 1]
     print("--")
-    print("TODO: " + str(len(content) - 1) + " task total")
+    print("TODO: " + str(len(content)) + " task total")
     mod_task_write(content)
 
 
@@ -34,11 +34,23 @@ def task_complete():
 
 
 def task_list():
-    content = mod_task_read()
-    for idx, x in enumerate(content):
-        print str(idx + 1) + " " + x.strip()
-    print("--")
-    print("TODO: " + str(len(content)) + " task total")
+    try:
+        item = argv[2]
+    except:
+        item = None
+
+    if item != None:
+        content = mod_task_read()
+        new_content = content[int(item) - 1]
+        print item + " " + new_content.strip()
+        print("--")
+        print("TODO: " + str(len(content)) + " task total")
+    else:
+        content = mod_task_read()
+        for idx, x in enumerate(content):
+            print str(idx + 1) + " " + x.strip()
+        print("--")
+        print("TODO: " + str(len(content)) + " task total")
 
 
 def task_add():
@@ -69,8 +81,8 @@ def mod_task_write(content):
 cmd_map = {"add": task_add, "ad": task_add, "a": task_add,
            "list": task_list, "ls": task_list, "l": task_list,
            "delete": task_delete, "del": task_delete, "d": task_delete,
-           "update": task_update,
-           "complete": task_complete
+           "update": task_update, "up": task_update(), "u": task_update(),
+           "complete": task_complete, "com": task_complete, "c": task_complete
            }
 
 
@@ -82,4 +94,3 @@ def main():
 if __name__ == "__main__":
     #print ("Calling Main")
     main()
-
