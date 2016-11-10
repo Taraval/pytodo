@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
+import re
 from sys import argv
 
 TODO = "todo.txt"
@@ -15,7 +16,7 @@ def task_update():
     lineupdate = ' '.join(argv[3:])
     print("Updating task" + item + ": " + lineupdate)
     content = mod_task_read()
-    content[int(item) - 1] = lineupdate + '\n'
+    content[int(item) - 1] = lineupdate + "\n"
     mod_task_write(content)
 
 
@@ -63,6 +64,27 @@ def task_add():
     mod_task_write(content)
 
 
+def task_priority():
+    try:
+        item = argv[2]
+        mode = argv[3]
+    except:
+        item = None
+    if item != None:
+        content = mod_task_read()
+        new_content = content[int(item) - 1]
+        new_content = re.sub("^\(.*\)\ ", "", new_content)
+        if mode != "-":
+            print("Update task " + item + " with priority (" + mode.upper() + ") ")
+            new_content = "(" + mode.upper() + ") " + new_content
+        else:
+            print("Remove priority task " + item)
+
+        content[int(item) - 1] = new_content
+        mod_task_write(content)
+    else:
+        print("Please RTFM")
+
 def mod_task_read():
     if os.path.exists(TODO):
         with open(TODO, "r") as todoList:
@@ -82,6 +104,7 @@ cmd_map = {"add": task_add, "ad": task_add, "a": task_add,
            "list": task_list, "ls": task_list, "l": task_list,
            "delete": task_delete, "del": task_delete, "d": task_delete,
            "update": task_update, "up": task_update, "u": task_update,
+           "priority": task_priority, "pri": task_priority, "p": task_priority,
            "complete": task_complete, "com": task_complete, "c": task_complete
            }
 
