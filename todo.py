@@ -81,7 +81,7 @@ def mod_task_write(content):
 cmd_map = {"add": task_add, "ad": task_add, "a": task_add,
            "list": task_list, "ls": task_list, "l": task_list,
            "delete": task_delete, "del": task_delete, "d": task_delete,
-           "update": task_update, "up": task_update(), "u": task_update(),
+           "update": task_update, "up": task_update, "u": task_update,
            "complete": task_complete, "com": task_complete, "c": task_complete
            }
 
