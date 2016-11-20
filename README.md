@@ -1,6 +1,6 @@
 ## Installation
 
-    PROJECT="~/.ezpc" 
+    PROJECT="$HOME/.ezpc" 
     USERNAME="taraval"
     REPO="pytodo"
     PATHX_USERNAME=$PROJECT/$USERNAME
