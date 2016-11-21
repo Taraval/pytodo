@@ -13,6 +13,6 @@
     echo "alias t-upgrade='cd $PATHX; git pull; cd $HOME'" >> $BASHRC
     echo "alias t='python $PATHX/todo.py'" >> $BASHRC
     echo "### END: $USERNAME/$REPO ###" >> $BASHRC
-    export $BASHRC
+    . $BASHRC
 
 ## Remove me
