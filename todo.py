@@ -122,7 +122,10 @@ cmd_map = {"add": task_add, "ad": task_add, "a": task_add,
 
 def main():
     """ Main Function """
-    get_cmd = argv[1]
+    try:
+        get_cmd = argv[1]
+    except:
+        get_cmd = "list"
     cmd_map.get(get_cmd, help_menu)()
 
 if __name__ == "__main__":
