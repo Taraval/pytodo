@@ -5,7 +5,7 @@ import re
 from sys import argv
 
 TODO = "todo.txt"
-DONE = "todo-done.txt"
+DONE = "done.txt"
 
 
 def help_menu():
