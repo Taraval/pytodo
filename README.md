@@ -15,4 +15,8 @@
     echo "### END: $USERNAME/$REPO ###" >> $BASHRC
     . $BASHRC
 
-## Remove me
+## Upgrade
+
+    t-upgrade
+    
+## Uninstall
