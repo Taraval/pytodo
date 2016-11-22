@@ -10,8 +10,6 @@ TODO = __location__ + "todo.txt"
 DONE = __location__ + "done.txt"
 
 
-print __location__
-
 def help_menu():
     print("Please see documentation for more help.")
 
