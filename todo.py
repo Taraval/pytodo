@@ -4,9 +4,13 @@ import os
 import re
 from sys import argv
 
-TODO = "todo.txt"
-DONE = "done.txt"
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
+TODO = __location__ + "todo.txt"
+DONE = __location__ + "done.txt"
+
+
+print __location__
 
 def help_menu():
     print("Please see documentation for more help.")
